@@ -236,6 +236,7 @@ def test_conditional_elements(driver):
 
 The correct locator format uses square brackets `[]` for the strategy-value pairs:
 # Multi-platform locator example
+```
 login_button = {
     "ANDROID": [By.ID, "com.app:id/login"],
     "IOS": [By.ACCESSIBILITY_ID, "LoginButton"],
