@@ -241,10 +241,6 @@ login_button = {
     "IOS": [By.ACCESSIBILITY_ID, "LoginButton"],
     "WEB": [By.CSS_SELECTOR, "#login-btn"]
 }
-
-# The library automatically chooses the right locator based on AI_HEALING_PLATFORM
-mobile.click(login_button)
-# The library automatically chooses the right locator based on AI_HEALING_PLATFORM
 mobile.click(login_button)
 ```
 
@@ -324,24 +320,6 @@ Log outputs include:
 - AI provider interactions
 - Element interaction successes
 
-## 📋 Database Schema
-
-If using PostgreSQL recording, create this table:
-
-```sql
-CREATE TABLE healing_history (
-    id SERIAL PRIMARY KEY,
-    project_name VARCHAR(255),
-    pillar_name VARCHAR(255), 
-    session_id VARCHAR(255),
-    testcase_id VARCHAR(500),
-    original_locator TEXT,
-    healed_locator TEXT,
-    app_type VARCHAR(50),
-    timestamp TIMESTAMP
-);
-```
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -356,4 +334,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-*AI Healing - Making test automation more resilient with artificial intelligence.*
+*IntelliHeal - Making test automation more resilient with artificial intelligence.*
