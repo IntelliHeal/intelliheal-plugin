@@ -16,7 +16,7 @@ class BaseAssertions(MobileInteractions):
     """Base class for assertions and verifications with shared locator handling."""
 
     def __init__(self, default_timeout: int = 10):
-        super().__init__(driver, default_timeout)
+        super().__init__(default_timeout)
 
     def _find_element(self, locator: Dict[str, Tuple]):
         """Find element without waiting, extending mobile.py locator extraction to support WEB."""
