@@ -82,7 +82,7 @@ Documentation = "https://intelliheal-pytest.readthedocs.io"
 Changelog = "https://github.com/IntelliHeal/intelliheal-pytest/blob/main/CHANGELOG.md"
 
 [project.entry-points.pytest11]
-intelliheal = "src.pytest_plugin"
+intelliheal = "intelliheal.pytest_plugin"
 
 [tool.setuptools.packages.find]
 where = ["src"]
