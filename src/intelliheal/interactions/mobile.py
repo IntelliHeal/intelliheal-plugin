@@ -10,6 +10,7 @@ from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.common.multi_action import MultiAction
 
 from ..decorator import ai_heal
+from ..driver_proxy import driver
 
 logger = logging.getLogger("ai_healing")
 
@@ -17,7 +18,7 @@ logger = logging.getLogger("ai_healing")
 class MobileInteractions:
     """AI-Healing enabled mobile interactions wrapper for Appium actions."""
 
-    def __init__(self, driver, default_timeout: int = 10):
+    def __init__(self, default_timeout: int = 10):
         self.driver = driver
         self.default_timeout = default_timeout
         self.wait = WebDriverWait(driver, default_timeout)

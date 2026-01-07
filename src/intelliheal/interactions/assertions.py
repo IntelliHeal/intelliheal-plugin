@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 from ..decorator import ai_heal
 from .mobile import MobileInteractions
+from ..driver_proxy import driver
 
 logger = logging.getLogger("ai_healing")
 
@@ -14,7 +15,7 @@ logger = logging.getLogger("ai_healing")
 class BaseAssertions(MobileInteractions):
     """Base class for assertions and verifications with shared locator handling."""
 
-    def __init__(self, driver, default_timeout: int = 10):
+    def __init__(self, default_timeout: int = 10):
         super().__init__(driver, default_timeout)
 
     def _find_element(self, locator: Dict[str, Tuple]):
