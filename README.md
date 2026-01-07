@@ -116,7 +116,7 @@ def test_login(driver):
 #### Mobile Interactions
 
 ```python
-from intelliheal_pytest.interactions.mobile import MobileInteractions
+from intelliheal.interactions.mobile import MobileInteractions
 
 def test_mobile_app(driver):
     mobile = MobileInteractions(driver)
@@ -141,7 +141,7 @@ def test_mobile_app(driver):
 #### Web Interactions
 
 ```python
-from intelliheal_pytest.interactions.web import WebInteractions
+from intelliheal.interactions.web import WebInteractions
 
 def test_web_app(driver):
     web = WebInteractions(driver)
@@ -160,7 +160,7 @@ def test_web_app(driver):
 ### 3. Assertions and Verifications
 
 ```python
-from intelliheal_pytest.interactions.assertions import Assertions, Verifications
+from intelliheal.interactions.assertions import Assertions, Verifications
 
 def test_with_assertions(driver):
     asserts = Assertions(driver)
