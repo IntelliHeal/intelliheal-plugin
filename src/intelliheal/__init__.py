@@ -12,9 +12,11 @@ __license__ = "MIT"
 from .healer import HealingAgent
 from .decorator import recorder
 from .pytest_plugin import *
+from .driver_proxy import driver as open_driver
 
 __all__ = [
     "HealingAgent",
     "recorder",
+    "open_driver",
     "__version__",
 ]

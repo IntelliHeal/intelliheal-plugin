@@ -5,6 +5,8 @@ import tempfile
 import json
 from pathlib import Path
 from .decorator import recorder
+from .driver_proxy import _driver_storage
+
 _SESSION_ID = None
 
 
@@ -102,3 +104,65 @@ def handle_healing_commit(request):
 @pytest.fixture(autouse=True)
 def _ai_healing_auto_commit(request):
     yield from handle_healing_commit(request)
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_setup(item):
+    """Setup hook to capture driver for DriverProxy in pytest-xdist workers"""
+    yield
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_fixture_setup(fixturedef, request):
+    """Capture driver fixtures and store them for DriverProxy access"""
+    outcome = yield
+    result = outcome.get_result()
+
+    # Check if this fixture looks like a driver
+    if result is not None and _is_driver_fixture(result, fixturedef.argname):
+        # Store in thread-local storage for DriverProxy
+        _driver_storage.current_driver = result
+
+
+def _is_driver_fixture(obj, fixture_name):
+    """Check if a fixture result is a WebDriver instance"""
+    # Quick check based on fixture name patterns
+    driver_fixture_patterns = [
+        "driver",
+        "open_driver",
+        "webdriver",
+        "selenium_driver",
+        "appium_driver",
+        "android_driver",
+        "ios_driver",
+    ]
+
+    if any(pattern in fixture_name.lower() for pattern in driver_fixture_patterns):
+        return _is_webdriver_object(obj)
+
+    return False
+
+
+def _is_webdriver_object(obj):
+    """Check if an object looks like a WebDriver instance"""
+    if obj is None:
+        return False
+
+    try:
+        # Check for essential WebDriver methods
+        return (
+            hasattr(obj, "find_element")
+            and hasattr(obj, "quit")
+            and (hasattr(obj, "session_id") or hasattr(obj, "capabilities"))
+        )
+    except:
+        return False
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_teardown(item, nextitem):
+    """Clear driver storage after test"""
+    yield
+    # Clear the driver from thread-local storage
+    if hasattr(_driver_storage, "current_driver"):
+        _driver_storage.current_driver = None
