@@ -19,7 +19,7 @@ IntelliHeal is an intelligent self-healing library for Selenium and Appium tests
 ## 📦 Installation
 
 ```bash
-pip install intelliheal-pytest
+pip install IntelliHeal
 ```
 
 ### Dependencies
@@ -98,7 +98,7 @@ export PILLAR_NAME="Your Test Pillar"
 Use the `@ai_heal` decorator to add healing capabilities to your test functions:
 
 ```python
-from intelliheal_pytest import ai_heal
+from intelliheal import ai_heal
 
 @ai_heal(driver_arg_index=0)
 def click_login_button(driver, login_button_locator):
@@ -187,7 +187,7 @@ def test_with_assertions(driver):
 ### Custom Healing Agent
 
 ```python
-from intelliheal_pytest import HealingAgent
+from intelliheal import HealingAgent
 
 def test_custom_healing(driver):
     # Create healing agent
