@@ -8,9 +8,13 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import TimeoutException
 from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.common.multi_action import MultiAction
+from selenium.webdriver.common.actions import interaction
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.common.actions.pointer_input import PointerInput
 
 from ..decorator import ai_heal
 from ..driver_proxy import driver
+from ..config import AI_HEALING_PLATFORM
 
 logger = logging.getLogger("ai_healing")
 
@@ -141,6 +145,45 @@ class MobileInteractions:
         element = self._wait_for_element(locator, timeout, EC.element_to_be_clickable)
         TouchAction(self.driver).tap(element).tap(element).perform()
         logger.debug(f"Successfully double tapped element: {locator}")
+
+    def click_by_coordinate(self, start_x: float, start_y: float) -> None:
+        """
+        Click on screen coordinates with improved error handling.
+        Coordinates are percentage-based (0-100).
+
+        Args:
+            start_x: X coordinate as percentage of screen width (0-100)
+            start_y: Y coordinate as percentage of screen height (0-100)
+
+        Raises:
+            AssertionError: If click action fails
+        """
+        try:
+            # Calculate absolute coordinates from percentage (convert to int for pixel precision)
+            window_size = self.driver.get_window_size()
+            x = int(window_size.get("width") * start_x / 100)
+            y = int(window_size.get("height") * start_y / 100)
+
+            # Platform-specific click action using W3C Actions API (Appium 2.0+ compatible)
+            if AI_HEALING_PLATFORM == "ANDROID":
+                # Use W3C Actions API for Android
+                actions = ActionBuilder(
+                    self.driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch")
+                )
+                actions.pointer_action.move_to_location(x, y)
+                actions.pointer_action.pointer_down()
+                actions.pointer_action.pointer_up()
+                actions.perform()
+            else:
+                # Use mobile: tap for iOS
+                self.driver.execute_script("mobile: tap", {"x": x, "y": y})
+
+            logger.debug(f"Successfully clicked coordinate ({start_x}%, {start_y}%)")
+
+        except Exception as e:
+            error_msg = f"Failed to click coordinate ({start_x}%, {start_y}%): {str(e)}"
+            logger.error(error_msg)
+            raise AssertionError(error_msg)
 
     def swipe(
         self, start_x: int, start_y: int, end_x: int, end_y: int, duration: int = 1000

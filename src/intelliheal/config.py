@@ -17,15 +17,19 @@ AI_HEALING_PROVIDER = os.environ.get("AI_HEALING_PROVIDER", "anthropic").lower()
 # Anthropic Configuration
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
+ANTHROPIC_BASE_URL = os.environ.get("ANTHROPIC_BASE_URL")
 # OpenAI Configuration
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4-turbo")
+OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
 # Google Gemini Configuration
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-1.5-pro-latest")
+GEMINI_BASE_URL = os.environ.get("GEMINI_BASE_URL")
 # Groq Configuration
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama3-70b-8192")
+GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL")
 
 # Database Configuration (PostgreSQL)
 DB_HOST = os.environ.get("DB_HOST", "localhost")
