@@ -17,6 +17,8 @@ from .config import (
 
 logger = logging.getLogger("ai_healing")
 
+HEALING_HISTORY_TABLE = "intelliheal_healing_history"
+
 try:
     import psycopg2
 
@@ -75,8 +77,8 @@ class HealingRecorder:
             )
             cur = conn.cursor()
 
-            query = """
-                INSERT INTO healing_history 
+            query = f"""
+                INSERT INTO {HEALING_HISTORY_TABLE} 
                 (project_name, pillar_name, session_id, testcase_id, original_locator, healed_locator, app_type, timestamp)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """
@@ -95,8 +97,8 @@ class HealingRecorder:
                         PILLAR_NAME,
                         session_id or "Unknown",
                         testcase_id or "Unknown",
-                        key,  
-                        healed_locator_json,  
+                        key,
+                        healed_locator_json,
                         AI_HEALING_APP_TYPE,
                         data["timestamp"],
                     ),
@@ -129,9 +131,9 @@ class HealingRecorder:
             )
             cur = conn.cursor()
 
-            query = """
+            query = f"""
                 SELECT healed_locator 
-                FROM healing_history 
+                FROM {HEALING_HISTORY_TABLE} 
                 WHERE original_locator = %s AND app_type = %s
                 ORDER BY timestamp DESC 
                 LIMIT 1
