@@ -41,9 +41,7 @@ class MobileInteractions:
         """Wait for either of two elements to be visible. Returns True if elem_a found first, False if elem_b found first."""
         try:
             # Use the mobile class method
-            return self._wait_either_element_internal(
-                self.driver, elem_a, elem_b, timeout
-            )
+            return self._wait_either_element_internal(elem_a, elem_b, timeout)
         except:
 
             def check_either_element(driver):
